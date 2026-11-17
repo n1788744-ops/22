@@ -1,0 +1,141 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidTariff(tariffId, priceRub) {
+      return (tariffId == 'free_0' && priceRub == 0) ||
+             (tariffId == 'pro_100' && priceRub == 100);
+    }
+
+    function isValidContract(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.contractNumber is string && data.contractNumber.size() >= 5 && data.contractNumber.size() <= 40 &&
+             data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 120 &&
+             data.documentIdNumber is string && data.documentIdNumber.size() >= 4 && data.documentIdNumber.size() <= 40 &&
+             data.contactEmail is string && data.contactEmail.size() >= 3 && data.contactEmail.size() <= 120 &&
+             data.virtualNumber is string && data.virtualNumber.size() == 12 && data.virtualNumber.matches('^\\+7990[0-9]{7}$') &&
+             data.tariffId is string &&
+             data.tariffPriceRub is int &&
+             isValidTariff(data.tariffId, data.tariffPriceRub) &&
+             data.status in ['ACTIVE', 'TERMINATED'] &&
+             data.signatureStrokeCount is int && data.signatureStrokeCount >= 1 && data.signatureStrokeCount <= 500 &&
+             data.signaturePointsJson is string && data.signaturePointsJson.size() >= 2 && data.signaturePointsJson.size() <= 20000;
+    }
+
+    function isValidCallRecord(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.callerVirtualNumber is string && data.callerVirtualNumber.size() == 12 && data.callerVirtualNumber.matches('^\\+7990[0-9]{7}$') &&
+             data.recipientNumber is string && data.recipientNumber.size() >= 3 && data.recipientNumber.size() <= 32 &&
+             data.recipientName is string && data.recipientName.size() <= 100 &&
+             data.networkType in ['Wi-Fi', 'LTE/5G', 'Internet'] &&
+             data.tariffId in ['free_0', 'pro_100'] &&
+             data.callMode in ['INTERNET_TO_REAL', 'VOIP_BRIDGE'] &&
+             data.status in ['INITIATED', 'CONNECTED', 'FAILED'];
+    }
+
+    match /users/{userId}/contracts/{contractId} {
+      allow get: if isOwner(userId) && isValidId(contractId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+                       isValidId(contractId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().status == 'ACTIVE' &&
+                       incoming().keys().hasAll([
+                         'userId', 'contractNumber', 'fullName', 'documentIdNumber',
+                         'contactEmail', 'virtualNumber', 'tariffId', 'tariffPriceRub',
+                         'status', 'signatureStrokeCount', 'signaturePointsJson',
+                         'createdAt', 'updatedAt'
+                       ]) &&
+                       incoming().keys().hasOnly([
+                         'userId', 'contractNumber', 'fullName', 'documentIdNumber',
+                         'contactEmail', 'virtualNumber', 'tariffId', 'tariffPriceRub',
+                         'status', 'signatureStrokeCount', 'signaturePointsJson',
+                         'createdAt', 'updatedAt'
+                       ]) &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                       incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                       isValidContract(incoming());
+
+      allow update: if isOwner(userId) &&
+                       isValidId(contractId) &&
+                       isValidContract(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                       (
+                         // Action 1: Switch tariff on an active contract
+                         (
+                           existing().status == 'ACTIVE' &&
+                           incoming().status == 'ACTIVE' &&
+                           incoming().diff(existing()).affectedKeys().hasOnly(['tariffId', 'tariffPriceRub', 'updatedAt'])
+                         ) ||
+                         // Action 2: Terminate an active contract
+                         (
+                           existing().status == 'ACTIVE' &&
+                           incoming().status == 'TERMINATED' &&
+                           incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])
+                         ) ||
+                         // Action 3: Re-sign / activate a new contract
+                         (
+                           incoming().status == 'ACTIVE' &&
+                           incoming().diff(existing()).affectedKeys().hasOnly([
+                             'contractNumber', 'fullName', 'documentIdNumber', 'contactEmail',
+                             'virtualNumber', 'tariffId', 'tariffPriceRub', 'status',
+                             'signatureStrokeCount', 'signaturePointsJson', 'updatedAt'
+                           ])
+                         )
+                       );
+
+      allow delete: if isOwner(userId) && isValidId(contractId);
+    }
+
+    match /users/{userId}/calls/{callId} {
+      allow get: if isOwner(userId) && isValidId(callId);
+      allow list: if isOwner(userId);
+
+      allow create: if isOwner(userId) &&
+                       isValidId(callId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().keys().hasAll([
+                         'userId', 'callerVirtualNumber', 'recipientNumber', 'recipientName',
+                         'networkType', 'tariffId', 'callMode', 'status', 'createdAt'
+                       ]) &&
+                       incoming().keys().hasOnly([
+                         'userId', 'callerVirtualNumber', 'recipientNumber', 'recipientName',
+                         'networkType', 'tariffId', 'callMode', 'status', 'createdAt'
+                       ]) &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                       isValidCallRecord(incoming());
+
+      allow update: if false;
+
+      allow delete: if isOwner(userId) && isValidId(callId);
+    }
+  }
+}

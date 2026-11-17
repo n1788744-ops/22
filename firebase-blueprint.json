@@ -1,0 +1,155 @@
+{
+  "entities": {
+    "SubscriberContract": {
+      "title": "SubscriberContract",
+      "description": "Signed К mobile virtual operator subscriber contract with +7990 number and tariff plan",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated Firebase user UID"
+        },
+        "contractNumber": {
+          "type": "string",
+          "description": "Unique К mobile contract identifier (e.g. KM-2026-4821)"
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Subscriber full legal name"
+        },
+        "documentIdNumber": {
+          "type": "string",
+          "description": "Subscriber passport or ID document number"
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "Subscriber contact email"
+        },
+        "virtualNumber": {
+          "type": "string",
+          "description": "Assigned К mobile virtual phone number starting with +7990"
+        },
+        "tariffId": {
+          "type": "string",
+          "enum": ["free_0", "pro_100"],
+          "description": "Selected tariff plan identifier"
+        },
+        "tariffPriceRub": {
+          "type": "integer",
+          "description": "Monthly tariff price in RUB (0 or 100)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["ACTIVE", "TERMINATED"],
+          "description": "Contract lifecycle status"
+        },
+        "signatureStrokeCount": {
+          "type": "integer",
+          "description": "Number of drawn strokes in the subscriber signature"
+        },
+        "signaturePointsJson": {
+          "type": "string",
+          "description": "Serialized polyline points representing handwritten signature"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when contract was created (FieldValue.serverTimestamp())"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when contract was last updated (FieldValue.serverTimestamp())"
+        }
+      },
+      "required": [
+        "userId",
+        "contractNumber",
+        "fullName",
+        "documentIdNumber",
+        "contactEmail",
+        "virtualNumber",
+        "tariffId",
+        "tariffPriceRub",
+        "status",
+        "signatureStrokeCount",
+        "signaturePointsJson",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CallRecord": {
+      "title": "CallRecord",
+      "description": "Call log entry initiated from К mobile over internet into real Android call",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated Firebase user UID"
+        },
+        "callerVirtualNumber": {
+          "type": "string",
+          "description": "Subscriber +7990 virtual number"
+        },
+        "recipientNumber": {
+          "type": "string",
+          "description": "Dialed destination phone number"
+        },
+        "recipientName": {
+          "type": "string",
+          "description": "Optional contact display name"
+        },
+        "networkType": {
+          "type": "string",
+          "enum": ["Wi-Fi", "LTE/5G", "Internet"],
+          "description": "Active internet transport used for bridge"
+        },
+        "tariffId": {
+          "type": "string",
+          "enum": ["free_0", "pro_100"],
+          "description": "Tariff active during the call"
+        },
+        "callMode": {
+          "type": "string",
+          "enum": ["INTERNET_TO_REAL", "VOIP_BRIDGE"],
+          "description": "Calling mode"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["INITIATED", "CONNECTED", "FAILED"],
+          "description": "Call dispatch outcome"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of call initiation (FieldValue.serverTimestamp())"
+        }
+      },
+      "required": [
+        "userId",
+        "callerVirtualNumber",
+        "recipientNumber",
+        "recipientName",
+        "networkType",
+        "tariffId",
+        "callMode",
+        "status",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/contracts/{contractId}": {
+      "schema": {
+        "$ref": "#/entities/SubscriberContract"
+      },
+      "description": "User-scoped К mobile subscriber contracts"
+    },
+    "/users/{userId}/calls/{callId}": {
+      "schema": {
+        "$ref": "#/entities/CallRecord"
+      },
+      "description": "User-scoped К mobile call history records"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "К mobile",
+  "description": "Виртуальный мобильный оператор К mobile: виртуальные номера +7990, звонки через интернет с переходом в реальный вызов, тарифы 0 ₽ и 100 ₽ и абонентский договор.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">К mobile</string>
+    <string name="brand_tagline">Виртуальный мобильный оператор нового поколения</string>
+    <string name="brand_subtitle">Виртуальный номер +7 990 • Интернет-звонки с выходом в реальный вызов • Честные тарифы</string>
+
+    <!-- Auth -->
+    <string name="auth_title">Добро пожаловать в К mobile</string>
+    <string name="auth_description">Войдите через Google, чтобы оформить абонентский договор, получить виртуальный номер +7 990 и звонить через интернет.</string>
+    <string name="auth_sign_in_button">Войти через Google</string>
+    <string name="auth_signing_in">Выполняется вход…</string>
+    <string name="auth_sign_out">Выйти из аккаунта</string>
+
+    <!-- Navigation Tabs -->
+    <string name="tab_dialer">Звонки</string>
+    <string name="tab_tariffs">Тарифы</string>
+    <string name="tab_contract">Договор</string>
+    <string name="tab_history">История</string>
+
+    <!-- Contract Gate & Onboarding -->
+    <string name="contract_required_title">Нужен договор от К mobile</string>
+    <string name="contract_required_body">Чтобы пользоваться услугами связи К mobile, получить виртуальный номер +7 990 и совершать звонки через интернет, оформите абонентский договор.</string>
+    <string name="contract_cta_button">Оформить договор К mobile</string>
+    <string name="contract_form_title">Абонентский договор К mobile</string>
+    <string name="contract_field_full_name">ФИО абонента</string>
+    <string name="contract_field_document">Серия и номер паспорта / ID</string>
+    <string name="contract_field_email">Контактный e-mail</string>
+    <string name="contract_pick_number">Выберите виртуальный номер +7 990</string>
+    <string name="contract_refresh_numbers">Обновить номера</string>
+    <string name="contract_pick_tariff">Выберите тариф</string>
+    <string name="contract_terms_title">Условия договора оказания услуг связи</string>
+    <string name="contract_terms_text">1. ООО «К mobile» предоставляет Абоненту виртуальный номер с префиксом +7 990 и доступ к голосовой связи через сеть Интернет с маршрутизацией в реальный телефонный вызов Android.\n2. На тарифе «К mobile Старт» абонентская плата составляет 0 рублей в месяц.\n3. На тарифе «К mobile 100» абонентская плата составляет 100 рублей в месяц.\n4. Абонент подтверждает достоверность указанных данных и разрешает обработку системных разрешений Android для совершения вызовов.</string>
+    <string name="contract_accept_checkbox">Я принимаю условия договора К mobile</string>
+    <string name="contract_signature_label">Подпись абонента (проведите пальцем ниже)</string>
+    <string name="contract_signature_clear">Очистить</string>
+    <string name="contract_sign_submit">Подписать договор и активировать +7 990</string>
+    <string name="contract_status_active">Договор активен</string>
+    <string name="contract_status_terminated">Договор расторгнут</string>
+    <string name="contract_terminate_button">Расторгнуть договор</string>
+    <string name="contract_resign_button">Переоформить договор</string>
+
+    <!-- Tariffs -->
+    <string name="tariff_free_title">К mobile Старт</string>
+    <string name="tariff_free_price">0 ₽ / мес</string>
+    <string name="tariff_free_badge">Бесплатный</string>
+    <string name="tariff_free_desc">Первый бесплатный тариф К mobile: виртуальный номер +7 990, звонки через интернет-сеть и базовый пакет 30 мин на любые номера.</string>
+
+    <string name="tariff_pro_title">К mobile 100</string>
+    <string name="tariff_pro_price">100 ₽ / мес</string>
+    <string name="tariff_pro_badge">Хит</string>
+    <string name="tariff_pro_desc">Тариф 100 К mobile: безлимитные интернет-звонки, HD-качество голоса, 500 минут по России и приоритетный перевод в реальный вызов.</string>
+    <string name="tariff_active_label">Подключён</string>
+    <string name="tariff_select_button">Выбрать тариф</string>
+
+    <!-- Dialer & Calls -->
+    <string name="dialer_enter_number">Введите номер телефона</string>
+    <string name="dialer_call_button">Позвонить через интернет</string>
+    <string name="dialer_contacts_button">Контакты</string>
+    <string name="dialer_internet_online">Интернет-сеть активна • Готово к вызову</string>
+    <string name="dialer_internet_offline">Нет подключения к интернету</string>
+    <string name="calling_bridge_title">Соединение через интернет-сеть К mobile…</string>
+    <string name="calling_bridge_subtitle">Перевод абонента в настоящий звонок Android</string>
+    <string name="calling_bridge_cancel">Отмена</string>
+
+    <!-- Permissions -->
+    <string name="permissions_title">Системные разрешения Android</string>
+    <string name="permissions_subtitle">Для реальных звонков, микрофона и выбора контактов</string>
+    <string name="permissions_request_all">Запросить разрешения</string>
+    <string name="permissions_open_settings">Открыть настройки</string>
+    <string name="permissions_all_granted">Все разрешения выданы</string>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Bold geometric K stem & arms inside 66dp safe zone -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M33,31 L42,31 L42,77 L33,77 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M43,54 L61,31 L71,31 L52,54 L72,77 L61,77 Z" />
+    <!-- Cyan telecom signal bars / pulse dot -->
+    <path
+        android:fillColor="#00E5C3"
+        android:pathData="M68,45 L73,45 L73,63 L68,63 Z" />
+    <path
+        android:fillColor="#00E5C3"
+        android:pathData="M76,38 L81,38 L81,70 L76,70 Z" />
+    <path
+        android:fillColor="#00E5C3"
+        android:pathData="M37.5,27m-3.5,0a3.5,3.5 0,1 1,7 0a3.5,3.5 0,1 1,-7 0" />
+</vector>

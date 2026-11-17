@@ -1,11 +1,14 @@
-<div align="center">
+# К mobile — Виртуальный оператор (Android)
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+## Скачать APK
+Готовый установочный файл APK добавлен прямо в репозиторий, чтобы его можно было скачать с GitHub:
 
-  <h1>Built with AI Studio</h2>
+- **[apk/k-mobile-debug.apk](apk/k-mobile-debug.apk)** (нажмите на файл в GitHub и выберите **Download raw file** / **Raw**)
 
-  <p>The fastest path from prompt to production with Gemini.</p>
-
-  <a href="https://aistudio.google.com/apps">Start building</a>
-
-</div>
+## Основные функции
+- Авторизация через Google (`Credential Manager` + Firebase Auth) и хранение данных в Cloud Firestore
+- Обязательное оформление абонентского договора «К mobile» с электронной подписью
+- Виртуальные номера с префиксом `+7 990`
+- Тарифы: **«К mobile Старт» (0 ₽ / мес)** и **«К mobile 100» (100 ₽ / мес)**
+- Звонки через интернет-сеть с переходом в настоящий вызов Android (`ACTION_CALL`)
+- Запрос системных разрешений Android (`CALL_PHONE`, `RECORD_AUDIO`, `READ_PHONE_STATE`, `READ_CONTACTS`, `POST_NOTIFICATIONS`)
